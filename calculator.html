@@ -4,44 +4,81 @@
   <title>Calculator</title>
   <style>
     .calculator {
-      width: 200px;
+      width: 300px;
       border: 1px solid #ccc;
       padding: 10px;
       text-align: center;
+      margin: 0 auto;
     }
 
     .calculator input[type="text"] {
       width: 100%;
       margin-bottom: 10px;
+      text-align: right;
+      padding: 5px;
+      font-size: 18px;
     }
 
     .calculator input[type="button"] {
       width: 40px;
       height: 40px;
       margin: 5px;
+      font-size: 16px;
+      position: relative;
+    }
+
+    .calculator input[type="button"]:hover::after {
+      content: attr(value);
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #333;
+      color: #fff;
+      padding: 4px 8px;
+      font-size: 12px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .calculator .history {
+      text-align: left;
+      margin-bottom: 10px;
+    }
+    
+    .calculator .history p {
+      margin: 0;
+      padding: 2px;
+      cursor: pointer;
+      color: blue;
     }
   </style>
 </head>
 <body>
   <div class="calculator">
+    <div class="history">
+        <span title="This feature allows you to recheck your work and insert the corresponding previously computed values by selecting">History: </span>
+      <div id="history-display"></div>
+    </div>
     <input type="text" id="result" readonly><br>
-    <input type="button" value="1" onclick="appendToResult('1')">
-    <input type="button" value="2" onclick="appendToResult('2')">
-    <input type="button" value="3" onclick="appendToResult('3')">
-    <input type="button" value="+" onclick="appendToResult('+')"><br>
-    <input type="button" value="4" onclick="appendToResult('4')">
-    <input type="button" value="5" onclick="appendToResult('5')">
-    <input type="button" value="6" onclick="appendToResult('6')">
-    <input type="button" value="-" onclick="appendToResult('-')"><br>
-    <input type="button" value="7" onclick="appendToResult('7')">
-    <input type="button" value="8" onclick="appendToResult('8')">
-    <input type="button" value="9" onclick="appendToResult('9')">
-    <input type="button" value="*" onclick="appendToResult('*')"><br>
-    <input type="button" value="0" onclick="appendToResult('0')">
-    <input type="button" value="." onclick="appendToResult('.')">
-    <input type="button" value="=" onclick="calculateResult()">
-    <input type="button" value="/" onclick="appendToResult('/')"><br>
-    <input type="button" value="C" onclick="clearResult()">
+    <input type="button" value="1" onclick="appendToResult('1')" title="one">
+    <input type="button" value="2" onclick="appendToResult('2')" title="two">
+    <input type="button" value="3" onclick="appendToResult('3')" title="three">
+    <input type="button" value="+" onclick="appendToResult('+')" title="ADD"><br>
+    <input type="button" value="4" onclick="appendToResult('4')" title="four">
+    <input type="button" value="5" onclick="appendToResult('5')" title="five">
+    <input type="button" value="6" onclick="appendToResult('6')" title="six">
+    <input type="button" value="-" onclick="appendToResult('-')" title="SUBTRACT"><br>
+    <input type="button" value="7" onclick="appendToResult('7')" title="seven">
+    <input type="button" value="8" onclick="appendToResult('8')" title="eight">
+    <input type="button" value="9" onclick="appendToResult('9')" title="nine">
+    <input type="button" value="*" onclick="appendToResult('*')" title="MULTIPLY"><br>
+    <input type="button" value="0" onclick="appendToResult('0')" title="zero">
+    <input type="button" value="." onclick="appendToResult('.')" title="DECIMAL">
+    <input type="button" value="=" onclick="calculateResult()" title="EQUALS TO">
+    <input type="button" value="/" onclick="appendToResult('/')" title="DIVIDE"><br>
+    <input type="button" value="C" onclick="clearResult()" title="CLEAR">
+    <input type="button" value="←" onclick="removeLastCharacter()" title="DELETE">
   </div>
 
   <script>
@@ -52,10 +89,21 @@
     function calculateResult() {
       var result = eval(document.getElementById("result").value);
       document.getElementById("result").value = result;
+      document.getElementById("history-display").innerHTML += '<p onclick="insertFromHistory(' + result + ')">' + result + '</p>';
     }
 
     function clearResult() {
       document.getElementById("result").value = '';
+      document.getElementById("history-display").innerHTML = '';
+    }
+    
+    function removeLastCharacter() {
+      var result = document.getElementById("result").value;
+      document.getElementById("result").value = result.slice(0, -1);
+    }
+    
+    function insertFromHistory(value) {
+      document.getElementById("result").value += value;
     }
   </script>
 </body>
