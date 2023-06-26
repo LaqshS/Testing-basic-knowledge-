@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Video Gallery</title>
+	<style>
+		.video-gallery {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			align-items: center;
+		}
+		.video {
+			margin: 10px;
+			width: 300px;
+			height: 200px;
+			position: relative;
+			cursor: pointer;
+		}
+		.video img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+		.video .play-button {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			width: 50px;
+			height: 50px;
+			background-color: rgba(255, 255, 255, 0.8);
+			border-radius: 50%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+		.video .play-button:hover {
+			background-color: rgba(255, 255, 255, 1);
+		}
+		.video .play-button:before {
+			content: "\f144";
+			font-family: "Font Awesome 5 Free";
+			font-weight: 900;
+			font-size: 24px;
+			color: #333;
+			transition: transform 0.3s ease;
+		}
+		.video:hover .play-button:before {
+			transform: scale(1.2);
+		}
+		.video iframe {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-o5VuAxHCA+7Kj3OK6F69zVv4j/6W5+Mv3UuWqV+6kz/6U2Z+zOW+W0lRjz9M7ekk" crossorigin="anonymous">
+</head>
+<body>
+	<div class="video-gallery">
+		<div class="video">
+			<img src="./dil nu.jpg" alt="Video Thumbnail">
+			<div class="play-button"></div>
+			<iframe src="./dil.mp4" frameborder="0" allowfullscreen></iframe>
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$(".video").click(function() {
+				$(this).find("iframe")[0].src += "?autoplay=1";
+				$(this).find(".play-button").fadeOut();
+			});
+		});
+	</script>
+</body>
+</html>
